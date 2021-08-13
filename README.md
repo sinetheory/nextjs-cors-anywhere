@@ -1,13 +1,9 @@
-# vercel-cors-anywhere
+# vercel-cors-anywhere fork by deybyr647
+This is my twist on [vercel-cors-anywhere](https://github.com/eai04191/vercel-cors-anywhere).
+This tool itself is based on [cors-anywhere](https://github.com/Rob--W/cors-anywhere), with deployment to Vercel being possible
 
-Just [cors-anywhere](https://github.com/Rob--W/cors-anywhere). but made to deploy with vercel.
+## Caching & Header Forwarding
+As mentioned in the original repository, requests are cached for 10 minutes if the URL is the same
+Since this is a modified version, this feature may not be available. Header fowarding is also not available
 
-Header forwarding is not supported. Will do, If I need it.
-
-## Usage
-
-`https://vercel-cors-anywhere.vercel.app/api/?url=https://example.com`
-
-## Caching
-
-All requests will be cached for 10 minutes if the URL is the same.
+## My Added Twists:
