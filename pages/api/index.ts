@@ -33,7 +33,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         const endpointReq = await axios(reqConfig);
         const endpointRes = await endpointReq.data;
 
-        res.status(200).json({...endpointRes});
+        res.status(200).json(endpointRes);
     }
     catch(err) {
         res.status(500).json({error: err.message});
