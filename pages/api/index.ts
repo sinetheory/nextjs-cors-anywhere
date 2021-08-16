@@ -4,39 +4,46 @@ import axios, { AxiosRequestConfig } from 'axios';
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     const { endpoint } = req.query;
 
-    if(endpoint === null || undefined || ''){
+    if(endpoint == null || endpoint == ''){
         const out = {
             error: "Missing endpoint parameter!"
         }
 
         res.status(400).json(out);
+        return;
     }
 
-    if(typeof endpoint !== 'string') {
+    if(!isNaN(parseInt(<string>endpoint)) || typeof endpoint !== 'string') {
         const out = {
-            error: "Endpoint parameter must be a string!"
+            error: 'Endpoint parameter must be a string!'
         }
 
         res.status(400).json(out);
+        return;
     }
 
     try {
         const reqConfig: AxiosRequestConfig = {
             //@ts-ignore
             url: endpoint,
-            method: "get",
+            method: 'get',
             headers: {
-                "X-Requested-With": "XMLHttpRequest"
+                'X-Requested-With': 'XMLHttpRequest'
             },
         }
-
+        
+        console.log(endpoint);
         const endpointReq = await axios(reqConfig);
         const endpointRes = await endpointReq.data;
 
         res.status(200).json(endpointRes);
     }
     catch(err) {
-        res.status(500).json({error: err.message});
+        const out = {
+            error: 'Something went wrong...'
+        }
+
+        res.status(500).json(out);
     }
 }
 

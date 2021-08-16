@@ -12,7 +12,7 @@ Header Forwading is also not available
 ## My Added Twists:
 - Similar logic but with NextJS API Routes
 - Information about the project and how it works on a landing page
-- A way to preview API responses via the landing page
+- A way to preview API responses via landing page
 
 ## Usage
 
