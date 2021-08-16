@@ -13,3 +13,7 @@ Header Forwading is also not available
 - Similar logic but with NextJS API Routes
 - Information about the project and how it works on a landing page
 - A way to preview API responses via the landing page
+
+## Usage
+
+`https://vercel-cors-anywhere.vercel.app/api?endpoint=https://example.com`
