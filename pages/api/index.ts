@@ -2,7 +2,10 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import axios, { AxiosRequestConfig } from 'axios';
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
+    let { url } = req;
     const { endpoint } = req.query;
+
+    url = url?.replace("/api?endpoint=", "");
 
     if(endpoint == null || endpoint == ''){
         const out = {
@@ -25,14 +28,13 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     try {
         const reqConfig: AxiosRequestConfig = {
             //@ts-ignore
-            url: endpoint,
+            url: url,
             method: 'get',
             headers: {
                 'X-Requested-With': 'XMLHttpRequest'
             },
         }
-        
-        console.log(endpoint);
+
         const endpointReq = await axios(reqConfig);
         const endpointRes = await endpointReq.data;
 
