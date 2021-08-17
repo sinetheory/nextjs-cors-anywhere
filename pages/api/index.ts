@@ -1,11 +1,9 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import axios, { AxiosRequestConfig } from 'axios';
+import filterProperties from "../../components/util";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-    let { url } = req;
     const { endpoint } = req.query;
-
-    url = url?.replace("/api?endpoint=", "");
 
     if(endpoint == null || endpoint == ''){
         const out = {
@@ -28,13 +26,15 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     try {
         const reqConfig: AxiosRequestConfig = {
             //@ts-ignore
-            url: url,
+            url: endpoint,
             method: 'get',
             headers: {
                 'X-Requested-With': 'XMLHttpRequest'
             },
+            params: filterProperties({...req.query}, ['endpoint'])
         }
 
+        console.log(reqConfig.params);
         const endpointReq = await axios(reqConfig);
         const endpointRes = await endpointReq.data;
 
@@ -42,7 +42,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     }
     catch(err) {
         const out = {
-            error: 'Something went wrong...'
+            error: 'Something went wrong...',
+            message: err.message
         }
 
         res.status(500).json(out);
