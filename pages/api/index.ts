@@ -42,7 +42,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     }
     catch(err) {
         const out = {
-            error: 'Something went wrong...'
+            error: 'Something went wrong...',
+            message: err.message
         }
 
         res.status(500).json(out);
