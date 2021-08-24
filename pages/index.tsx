@@ -74,7 +74,13 @@ const LandingContent = () => {
           <h2 className={"text-center my-5"}>API Response</h2>
 
           <div className={"d-flex justify-content-between align-baseline mb-3"}>
-            <a href={endpoint}>{endpoint}</a>
+            <a
+              href={`/api?endpoint=${endpoint}`}
+              rel={"noopener noreferrer"}
+              target={"_blank"}
+            >
+              {endpoint}
+            </a>
 
             {isLoading && <Spinner animation={"grow"} variant={"primary"} />}
           </div>
