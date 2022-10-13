@@ -27,7 +27,6 @@ const LandingContent = () => {
     (async () => {
       const req = await fetch(`/api?endpoint=${endpoint}`);
       const res = await req.json();
-      console.log(res);
       setIsLoading(false);
     })();
   }, [endpoint, isLoading]);
