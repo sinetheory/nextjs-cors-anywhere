@@ -54,7 +54,7 @@ const LandingContent = () => {
           <Form onSubmit={submitHandler}>
             <Form.Control
               type={"text"}
-              placeholder={"Enter URL to Test API..."} //@ts-ignore
+              placeholder={"Enter an API Endpoint URL..."} //@ts-ignore
               onChange={formChangeHandler}
               value={input}
             />
