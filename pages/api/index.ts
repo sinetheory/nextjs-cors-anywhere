@@ -1,22 +1,22 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import axios, { AxiosRequestConfig } from "axios";
-import filterProperties from "../../components/util";
+import Util from "../../components/Util";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const { endpoint } = req.query;
 
-  if (endpoint == null || endpoint == "") {
+  if (!endpoint) {
     const out = {
-      error: "Missing endpoint parameter!",
+      error: "Missing endpoint URL!",
     };
 
     res.status(400).json(out);
     return;
   }
 
-  if (!isNaN(parseInt(<string>endpoint)) || typeof endpoint !== "string") {
+  if (!Util.isValidURL(endpoint as string)) {
     const out = {
-      error: "Endpoint parameter must be a string!",
+      error: "Endpoint parameter must be a valid URL!",
     };
 
     res.status(400).json(out);
@@ -31,15 +31,14 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       headers: {
         "X-Requested-With": "XMLHttpRequest",
       },
-      params: filterProperties({ ...req.query }, ["endpoint"]),
+      params: Util.filterProperties({ ...req.query }, ["endpoint"]),
     };
 
-    console.log(reqConfig.params);
     const endpointReq = await axios(reqConfig);
     const endpointRes = await endpointReq.data;
 
     res.status(200).json(endpointRes);
-  } catch (err) {
+  } catch (err: Error | any) {
     const out = {
       error: "Something went wrong...",
       message: err.message,
