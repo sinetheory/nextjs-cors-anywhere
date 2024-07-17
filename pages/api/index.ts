@@ -6,7 +6,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
   try {
     const humanoid = new Humanoid();
-    const rdata = await humanoid.sendRequest(String(url)).then(res => res.body)
+    const rdata = await humanoid.sendRequest(String(url)).then((res: any) => res.body)
 
     return res.send(rdata)
   } catch (e) {
