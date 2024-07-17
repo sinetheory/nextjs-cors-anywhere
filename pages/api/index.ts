@@ -1,51 +1,25 @@
-import { NextApiRequest, NextApiResponse } from "next";
-import axios, { AxiosRequestConfig } from "axios";
-import Util from "../../components/Util";
+import NextCors from 'nextjs-cors'
+import axios from 'axios'
+import { NextApiRequest, NextApiResponse } from 'next'
+
+const regex = /\s+(href|src)=['"](.*?)['"]/g
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-  const { endpoint } = req.query;
-
-  if (!endpoint) {
-    const out = {
-      error: "Missing endpoint URL!",
-    };
-
-    res.status(400).json(out);
-    return;
-  }
-
-  if (!Util.isValidURL(endpoint as string)) {
-    const out = {
-      error: "Endpoint parameter must be a valid URL!",
-    };
-
-    res.status(400).json(out);
-    return;
-  }
+  const { url } = req.query
 
   try {
-    const reqConfig: AxiosRequestConfig = {
-      //@ts-ignore
-      url: endpoint,
-      method: "get",
-      headers: {
-        "X-Requested-With": "XMLHttpRequest",
-      },
-      params: Util.filterProperties({ ...req.query }, ["endpoint"]),
+    const requestOptions = {
+      method: "GET",
+      redirect: "follow"
     };
 
-    const endpointReq = await axios(reqConfig);
-    const endpointRes = await endpointReq.data;
+    const rdata = await fetch(String(url), requestOptions).then((response) => response.text())
 
-    res.status(200).json(endpointRes);
-  } catch (err: Error | any) {
-    const out = {
-      error: "Something went wrong...",
-      message: err.message,
-    };
-
-    res.status(500).json(out);
+    return res.send(rdata)
+  } catch (e) {
+    console.log('error', e)
+    return res.send(e)
   }
-};
+}
 
 export default handler;
