@@ -1,17 +1,12 @@
-import NextCors from 'nextjs-cors'
-import axios from 'axios'
 import { NextApiRequest, NextApiResponse } from 'next'
-
-const regex = /\s+(href|src)=['"](.*?)['"]/g
+const Humanoid = require("humanoid-js")
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const { url } = req.query
 
   try {
-    const rdata = await fetch(String(url), {
-      method: "GET",
-      redirect: "follow"
-    }).then((response) => response.text())
+    const humanoid = new Humanoid();
+    const rdata = await humanoid.sendRequest(String(url)).then(res => res.body)
 
     return res.send(rdata)
   } catch (e) {
