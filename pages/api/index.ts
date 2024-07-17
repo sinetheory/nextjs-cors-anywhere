@@ -8,12 +8,10 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const { url } = req.query
 
   try {
-    const requestOptions = {
+    const rdata = await fetch(String(url), {
       method: "GET",
       redirect: "follow"
-    };
-
-    const rdata = await fetch(String(url), requestOptions).then((response) => response.text())
+    }).then((response) => response.text())
 
     return res.send(rdata)
   } catch (e) {
